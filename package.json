@@ -1,0 +1,9 @@
+{
+  "name": "omdb-challenge",
+  "version": "1.0.0",
+  "description": "CognitionX Coding Challenge",
+  "main": "index.js",
+  "repository": "git@github.com:humancatfood/omdb-challenge.git",
+  "author": "me@humancatfood.com",
+  "license": "GNU"
+}
