@@ -1,9 +1,15 @@
 import { get } from 'axios';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
+import { connect as reduxConnect } from 'react-redux';
 
 
 
+@reduxConnect(
+  store => ({
+    store
+  })
+)
 export default class App extends React.Component
 {
 

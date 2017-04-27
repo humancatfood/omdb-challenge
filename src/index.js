@@ -1,10 +1,12 @@
 import './css/index.css';
 
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 import App from './js/app';
 
+import { configureStore } from './js/data/store';
 
 
 
@@ -14,7 +16,9 @@ if (ENV.DEBUG)
 }
 
 
-
-ReactDom.render(
-  <App />,
-  document.getElementById('app'));
+ReactDOM.render(
+  <Provider store={ configureStore() }>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+);
