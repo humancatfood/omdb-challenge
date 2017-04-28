@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
-import { searchFilms, receiveFilms } from './data/actions';
+import { searchFilms, receiveFilms, selectFilm } from './data/actions';
 
 
 
@@ -29,8 +29,8 @@ export default class App extends React.Component
 
   render ()
   {
-    const { films } = this.props;
-    const { selectedFilm, sortType } = this.state;
+    const { films, selectedFilm } = this.props;
+    const { sortType } = this.state;
 
     const filmsToDisplay = films && films.length && this._sortFilms(films, sortType) || [];
 
@@ -88,9 +88,9 @@ export default class App extends React.Component
 
   _selectFilm (film)
   {
-    this.setState({
-      selectedFilm: this.state.selectedFilm === film ? null : film
-    });
+    const { dispatch, selectedFilm } = this.props;
+
+    dispatch(selectFilm(selectedFilm === film ? null : film));
   }
 
   _sortFilms (films, sortType)

@@ -20,6 +20,12 @@ export default (state=initialState, action) => {
         selectedFilm: null
       };
 
+    case ACTIONS.SELECT_FILM:
+      return {
+        ...state,
+        selectedFilm: action.payload.film
+      };
+
     default:
       return state;
 
