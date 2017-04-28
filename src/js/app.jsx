@@ -3,11 +3,14 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
+import { searchFilms, receiveFilms } from './data/actions';
+
 
 
 @reduxConnect(
   store => ({
-    store
+    films: store.films.films,
+    selectedFilm: store.films.selectedFilm
   })
 )
 export default class App extends React.Component
@@ -26,10 +29,10 @@ export default class App extends React.Component
 
   render ()
   {
-    const { films, selectedFilm, sortType } = this.state;
+    const { films } = this.props;
+    const { selectedFilm, sortType } = this.state;
 
     const filmsToDisplay = films && films.length && this._sortFilms(films, sortType) || [];
-
 
     return (
       <div>
@@ -71,14 +74,15 @@ export default class App extends React.Component
     );
   }
 
-  _search (term)
+  _search (searchterm)
   {
-    get(`http://www.omdbapi.com/?s=${ term }`)
-      .then(response => {
-        this.setState({
-          films: response.data && response.data.Search
-        });
-      })
+    const { dispatch } = this.props;
+
+    dispatch(searchFilms(searchterm));
+    get(`http://www.omdbapi.com/?s=${ searchterm }`)
+      .then(response =>
+        dispatch(receiveFilms(response.data && response.data.Search))
+      )
       .catch(console.error);
   }
 
