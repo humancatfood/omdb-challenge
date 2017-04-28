@@ -2,9 +2,9 @@ import React from 'react';
 
 
 
-export default ({ film, onSelect, isSelected }) => (
+export default ({ film, isSelected }) => (
 
-  <div onClick={e => onSelect() }>
+  <div>
     <h2>
       <span>{ film.Title }</span>
       <small>({ film.Year })</small>

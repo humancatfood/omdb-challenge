@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
-import { selectFilm, setSortProp } from './../data/actions';
+import { selectFilm } from './../data/actions';
 
 import FilmView from './FilmView';
 
@@ -14,14 +14,17 @@ import FilmView from './FilmView';
     films: store.films.films,
     selectedFilm: store.films.selectedFilm,
     sortProp: store.ui.sortProp
-  })
+  }),
+  {
+    selectFilm
+  }
 )
 export default class FilmList extends React.Component
 {
 
   render ()
   {
-    const { films, selectedFilm, sortProp } = this.props;
+    const { films, selectFilm, selectedFilm, sortProp } = this.props;
 
     const filmsToDisplay = films && films.length && this._sortFilms(films, sortProp) || [];
 
@@ -29,10 +32,8 @@ export default class FilmList extends React.Component
       <ul className="film-list">
         {
           filmsToDisplay.map(film => (
-            <li>
-              <FilmView film={ film }
-                        onSelect={ () => this._selectFilm(film) }
-                        isSelected={ selectedFilm === film } />
+            <li onClick={ () => selectFilm(this._isSelected(film) ? null : film) }>
+              <FilmView film={ film } isSelected={ this._isSelected(film) } />
             </li>
           ))
         }
@@ -40,21 +41,14 @@ export default class FilmList extends React.Component
     );
   }
 
-  _selectFilm (film)
-  {
-    const { dispatch, selectedFilm } = this.props;
-    dispatch(selectFilm(selectedFilm === film ? null : film));
-  }
-
-  _setSortProp (sortProp)
-  {
-    const { dispatch } = this.props;
-    dispatch(setSortProp(sortProp));
-  }
-
   _sortFilms (films, sortProp)
   {
     return sortBy(films, film => film[sortProp])
+  }
+
+  _isSelected (film)
+  {
+    return film === this.props.selectedFilm;
   }
 
 }
