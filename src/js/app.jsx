@@ -3,36 +3,25 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
-import { searchFilms, receiveFilms, selectFilm } from './data/actions';
+import { searchFilms, receiveFilms, selectFilm, setSortProp } from './data/actions';
 
 
 
 @reduxConnect(
   store => ({
     films: store.films.films,
-    selectedFilm: store.films.selectedFilm
+    selectedFilm: store.films.selectedFilm,
+    sortProp: store.ui.sortProp
   })
 )
 export default class App extends React.Component
 {
 
-  constructor (props, context)
-  {
-    super(props, context);
-
-    this.state = {
-      sortType: 'TITLE',
-      films: [ ],
-      selectedFilm: null
-    };
-  }
-
   render ()
   {
-    const { films, selectedFilm } = this.props;
-    const { sortType } = this.state;
+    const { films, selectedFilm, sortProp } = this.props;
 
-    const filmsToDisplay = films && films.length && this._sortFilms(films, sortType) || [];
+    const filmsToDisplay = films && films.length && this._sortFilms(films, sortProp) || [];
 
     return (
       <div>
@@ -42,15 +31,15 @@ export default class App extends React.Component
 
         <span>sort:</span>
         <input id="title-input" type="radio" name="sort-group"
-               value="TITLE"
-               checked={sortType === 'TITLE'}
-               onChange={() => this.setState({sortType: 'TITLE'})} />
+               value="Title"
+               checked={sortProp === 'Title'}
+               onChange={() => this._setSortProp('Title')} />
         <label htmlFor="title-input">Title</label>,
 
         <input id="date-input" type="radio" name="sort-group"
-               value="DATE"
-               checked={sortType === 'DATE'}
-               onChange={() => this.setState({sortType: 'DATE'})} />
+               value="Year"
+               checked={sortProp === 'Year'}
+               onChange={() => this._setSortProp('Year')} />
         <label htmlFor="date-input">Date</label>
 
         <ul className="film-list">
@@ -80,35 +69,25 @@ export default class App extends React.Component
 
     dispatch(searchFilms(searchterm));
     get(`http://www.omdbapi.com/?s=${ searchterm }`)
-      .then(response =>
-        dispatch(receiveFilms(response.data && response.data.Search))
-      )
-      .catch(console.error);
+      .then(response => dispatch(receiveFilms(response.data && response.data.Search)))
+      .catch((...args) => console.error(args));
   }
 
   _selectFilm (film)
   {
     const { dispatch, selectedFilm } = this.props;
-
     dispatch(selectFilm(selectedFilm === film ? null : film));
   }
 
-  _sortFilms (films, sortType)
+  _setSortProp (sortProp)
   {
-    let sortProp;
-    switch ( sortType )
-    {
-      case 'DATE':
-        sortProp = 'Year';
-        break;
-      case 'TITLE':
-      default:
-        sortProp = 'Title';
-        break;
-    }
+    const { dispatch } = this.props;
+    dispatch(setSortProp(sortProp));
+  }
 
+  _sortFilms (films, sortProp)
+  {
     return sortBy(films, film => film[sortProp])
-
   }
 
 }

@@ -5,7 +5,7 @@ import { ACTIONS } from './actions';
 const initialState = {
   searchingFilms: false,
   searchTerm: null,
-  sortProp: 'TITLE',
+  sortProp: 'Title',
   reverse: false
 };
 
