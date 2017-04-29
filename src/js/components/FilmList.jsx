@@ -1,6 +1,6 @@
 import { get } from 'axios';
 import classNames from 'classNames';
-import sortBy from 'lodash/sortBy';
+import orderBy from 'lodash/orderBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -13,7 +13,8 @@ import { selectFilm, setSortProp } from './../data/actions';
   store => ({
     films: store.films.films,
     selectedFilm: store.films.selectedFilm,
-    sortProp: store.ui.sortProp
+    sortProp: store.ui.sortProp,
+    reverse: store.ui.reverse
   }),
   {
     selectFilm,
@@ -46,9 +47,9 @@ export default class FilmList extends React.Component
     }
   }
 
-  _sortFilms (films, sortProp)
+  _sortFilms (films, sortProp, reverse)
   {
-    return sortBy(films, film => film[sortProp])
+    return orderBy(films, sortProp, reverse ? 'desc' : 'asc');
   }
 
   _isSelected (film)
@@ -56,25 +57,37 @@ export default class FilmList extends React.Component
     return film === this.props.selectedFilm;
   }
 
+  _setSortProp (newSortProp)
+  {
+    const { sortProp, reverse, setSortProp } = this.props;
+
+    setSortProp(
+      newSortProp,
+      newSortProp === sortProp ? !reverse : reverse
+    );
+  }
+
   _renderTableHeader ()
   {
-    const { sortProp, setSortProp } = this.props;
+    const { sortProp, reverse } = this.props;
 
     return (
       <thead>
         <tr className="row">
           <td className="col-xs-1" />
           <td className="col-xs-9">
-            <button className="btn btn-link" onClick={() => setSortProp('Title')}>
+            <button className="btn btn-link" onClick={() => this._setSortProp('Title')}>
               Title <span className={ classNames('glyphicon', {
-                'glyphicon-sort-by-alphabet': sortProp === 'Title'
+                'glyphicon-sort-by-alphabet': sortProp === 'Title',
+                'glyphicon-sort-by-alphabet-alt': sortProp === 'Title' && reverse
               }) } />
             </button>
           </td>
           <td className="col-xs-2 text-right">
-            <button className="btn btn-link" onClick={() => setSortProp('Year')}>
+            <button className="btn btn-link" onClick={() => this._setSortProp('Year')}>
               Year  <span className={ classNames('glyphicon', {
-                'glyphicon-sort-by-order': sortProp === 'Year'
+                'glyphicon-sort-by-order': sortProp === 'Year',
+                'glyphicon-sort-by-order-alt': sortProp === 'Year' && reverse
               }) } />
             </button>
           </td>
@@ -86,8 +99,8 @@ export default class FilmList extends React.Component
 
   _renderTableBody ()
   {
-    const { films, sortProp, selectFilm, history } = this.props;
-    const filmsToDisplay =  this._sortFilms(films, sortProp);
+    const { films, sortProp, selectFilm, history, reverse } = this.props;
+    const filmsToDisplay =  this._sortFilms(films, sortProp, reverse);
 
     return (
       <tbody>
