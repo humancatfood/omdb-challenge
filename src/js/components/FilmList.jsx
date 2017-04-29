@@ -5,7 +5,7 @@ import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { selectFilm, setSortProp } from './../data/actions';
+import { setSortProp } from './../data/actions';
 
 
 
@@ -17,7 +17,6 @@ import { selectFilm, setSortProp } from './../data/actions';
     reverse: store.ui.reverse
   }),
   {
-    selectFilm,
     setSortProp
   }
 )
@@ -45,26 +44,6 @@ export default class FilmList extends React.Component
     {
       return null;
     }
-  }
-
-  _sortFilms (films, sortProp, reverse)
-  {
-    return orderBy(films, sortProp, reverse ? 'desc' : 'asc');
-  }
-
-  _isSelected (film)
-  {
-    return film === this.props.selectedFilm;
-  }
-
-  _setSortProp (newSortProp)
-  {
-    const { sortProp, reverse, setSortProp } = this.props;
-
-    setSortProp(
-      newSortProp,
-      newSortProp === sortProp ? !reverse : reverse
-    );
   }
 
   _renderTableHeader ()
@@ -99,7 +78,7 @@ export default class FilmList extends React.Component
 
   _renderTableBody ()
   {
-    const { films, sortProp, selectFilm, history, reverse } = this.props;
+    const { films, sortProp, reverse } = this.props;
     const filmsToDisplay =  this._sortFilms(films, sortProp, reverse);
 
     return (
@@ -107,7 +86,7 @@ export default class FilmList extends React.Component
         {
           filmsToDisplay.map(film => (
             <tr key={ film.imdbID }
-                onClick={ () => history.push(`/film/${ film.imdbID }`) }
+                onClick={ () => this._selectFilm(film) }
                 className={ classNames('row', { info: this._isSelected(film )}) } >
               <td className="col-xs-1">
                 <img className="img img-thumbnail" src={ film.Poster } alt={ film.Title } />
@@ -122,6 +101,31 @@ export default class FilmList extends React.Component
           ))
         }
       </tbody>
+    );
+  }
+
+  _sortFilms (films, sortProp, reverse)
+  {
+    return orderBy(films, sortProp, reverse ? 'desc' : 'asc');
+  }
+
+  _isSelected (film)
+  {
+    return film === this.props.selectedFilm;
+  }
+
+  _selectFilm (film)
+  {
+    this.props.history.push(`/film/${ film.imdbID }`);
+  }
+
+  _setSortProp (newSortProp)
+  {
+    const { sortProp, reverse, setSortProp } = this.props;
+
+    setSortProp(
+      newSortProp,
+      newSortProp === sortProp ? !reverse : reverse
     );
   }
 

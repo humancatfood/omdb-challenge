@@ -3,7 +3,6 @@ export const ACTIONS = {
   RECEIVE_FILM: 'RECEIVE_FILM',
   RECEIVE_FILMS: 'RECEIVE_FILMS',
   SEARCH_FILMS: 'SEARCH_FILMS',
-  SELECT_FILM: 'SELECT_FILM',
   SET_SORT_PROP: 'SET_SORT_PROP'
 };
 
@@ -44,14 +43,6 @@ export const fetchFilm = id => ({
 
 export const receiveFilm = film => ({
   type: ACTIONS.RECEIVE_FILM,
-  payload: {
-    film
-  }
-});
-
-
-export const selectFilm = film => ({
-  type: ACTIONS.SELECT_FILM,
   payload: {
     film
   }

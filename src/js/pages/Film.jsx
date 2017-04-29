@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import Header from '../components/Header';
 
 import { fetchFilm, receiveFilm } from './../data/actions';
+import { getFilm } from './../data/omdb-service';
 
 
 
@@ -30,10 +31,9 @@ export default class Film extends React.Component
     const { fetchFilm, receiveFilm, filmId} = this.props;
 
     fetchFilm();
-
-    get(`http://www.omdbapi.com/?i=${ filmId }&plot=full`)
-      .then(response => receiveFilm(response.data))
-      .catch((...args) => console.error(args));
+    getFilm(filmId)
+      .then(receiveFilm)
+      .catch(window.alert);
   }
 
   render ()

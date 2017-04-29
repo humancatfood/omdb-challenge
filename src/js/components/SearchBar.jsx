@@ -1,9 +1,9 @@
-import { get } from 'axios';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
 import { searchFilms, receiveFilms, setSortProp } from './../data/actions';
 
+import { getFilmList } from './../data/omdb-service';
 
 
 @reduxConnect(
@@ -45,9 +45,9 @@ export default class SeachBar extends React.Component
     const { searchFilms, receiveFilms } = this.props;
 
     searchFilms(searchterm);
-    get(`http://www.omdbapi.com/?s=${ searchterm }`)
-      .then(response => receiveFilms(response.data && response.data.Search))
-      .catch((...args) => console.error(args));
+    getFilmList(searchterm)
+      .then(receiveFilms)
+      .catch(window.alert);
   }
 
 }
