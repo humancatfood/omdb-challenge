@@ -21,26 +21,22 @@ export default class SeachBar extends React.Component
 
   render ()
   {
-    const { sortProp, setSortProp } = this.props;
-
     return (
-      <div>
-        <input id="search-input" type="text" placeholder="Search..." onChange={ e => this._search(e.currentTarget.value) }/>
+      <form className="form row">
 
-        <span>sort:</span>
-        <input id="title-input" type="radio" name="sort-group"
-               value="Title"
-               checked={sortProp === 'Title'}
-               onChange={() => setSortProp('Title')} />
-        <label htmlFor="title-input">Title</label>,
+        <div className="form-group
+                        col-xs-12
+                        col-sm-8 col-sm-offset-2">
+          <label className="input-group">
+            <input id="search-input" className="form-control" type="text" placeholder="Search..."
+                   onChange={ e => this._search(e.currentTarget.value) }/>
+            <span className="input-group-btn">
+              <button className="btn btn-default" type="button"><span className="glyphicon glyphicon-search" /></button>
+            </span>
+          </label>
+        </div>
 
-        <input id="date-input" type="radio" name="sort-group"
-               value="Year"
-               checked={sortProp === 'Year'}
-               onChange={() => setSortProp('Year')} />
-        <label htmlFor="date-input">Date</label>
-
-      </div>
+      </form>
     );
   }
 

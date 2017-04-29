@@ -7,7 +7,7 @@ import FilmList from './components/FilmList';
 
 
 export default () => (
-  <div>
+  <div className="container">
     <Header />
     <SearchBar />
     <FilmList />
