@@ -29,7 +29,8 @@ export default class SeachBar extends React.Component
                         col-sm-8 col-sm-offset-2">
           <label className="input-group">
             <input id="search-input" className="form-control" type="text" placeholder="Search..."
-                   onChange={ e => this._search(e.currentTarget.value) }/>
+                   onChange={ e => this._search(e.currentTarget.value) }
+                   ref="input" />
             <span className="input-group-btn">
               <button className="btn btn-default" type="button"><span className="glyphicon glyphicon-search" /></button>
             </span>
@@ -38,6 +39,11 @@ export default class SeachBar extends React.Component
 
       </form>
     );
+  }
+
+  componentDidMount ()
+  {
+    this.refs.input.focus();
   }
 
   _search (searchterm)
