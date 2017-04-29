@@ -4,7 +4,7 @@ import { get } from 'axios';
 
 export const getFilmList = searchTerm => {
 
-  return get(`http://www.omdbapi.com/?s=${ searchterm }`)
+  return get(`http://www.omdbapi.com/?s=${ searchTerm }`)
     .then(response => response.data && response.data.Search || []);
 
 };
@@ -12,6 +12,6 @@ export const getFilmList = searchTerm => {
 export const getFilm = filmId => {
 
   return get(`http://www.omdbapi.com/?i=${ filmId }&plot=full`)
-      .then(response => response.data);
+    .then(response => response.data.Error ? null : response.data);
 
 };

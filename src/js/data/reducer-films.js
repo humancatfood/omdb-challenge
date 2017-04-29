@@ -4,7 +4,10 @@ import { ACTIONS } from './actions';
 
 const initialState = {
   films: [],
-  selectedFilm: null
+  searchingFilms: false,
+  searchTerm: null,
+  selectedFilm: null,
+  fetchingFilm: false
 };
 
 
@@ -13,22 +16,31 @@ export default (state=initialState, action) => {
   switch (action.type)
   {
 
+    case ACTIONS.SEARCH_FILMS:
+      return {
+        ...state,
+        searchTerm: action.payload.searchTerm,
+        searchingFilms: true
+      };
+
     case ACTIONS.RECEIVE_FILMS:
       return {
         ...state,
         films: action.payload.films,
-        selectedFilm: null
+        searchingFilms: false
       };
 
-    case ACTIONS.SELECT_FILM:
+    case ACTIONS.FETCH_FILM:
       return {
         ...state,
-        selectedFilm: action.payload.film
+        fetchingFilm: true,
+        selectedFilm: null
       };
 
     case ACTIONS.RECEIVE_FILM:
       return {
         ...state,
+        fetchingFilm: false,
         selectedFilm: action.payload.film
       };
 

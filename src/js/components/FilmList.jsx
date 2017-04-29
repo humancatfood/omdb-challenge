@@ -5,6 +5,8 @@ import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import FourOhFourContent from './../components/404';
+
 import { setSortProp } from './../data/actions';
 
 
@@ -13,8 +15,10 @@ import { setSortProp } from './../data/actions';
   store => ({
     films: store.films.films,
     selectedFilm: store.films.selectedFilm,
+    searchingFilms: store.films.searchingFilms,
+    searchTerm: store.films.searchTerm,
     sortProp: store.ui.sortProp,
-    reverse: store.ui.reverse
+    reverse: store.ui.reverse,
   }),
   {
     setSortProp
@@ -26,8 +30,14 @@ export default class FilmList extends React.Component
 
   render ()
   {
-    const { films } = this.props;
-    if (films && films.length)
+    const { films, searchingFilms, searchTerm } = this.props;
+    if (searchingFilms)
+    {
+      return (
+        <p>Searching for films matching <strong>{ searchTerm }</strong> ..</p>
+      );
+    }
+    else if (films && films.length)
     {
       return (
         <table className="table table-striped table-hover">
@@ -38,6 +48,12 @@ export default class FilmList extends React.Component
             this._renderTableBody()
           }
         </table>
+      );
+    }
+    else if (searchTerm)
+    {
+      return (
+        <FourOhFourContent />
       );
     }
     else

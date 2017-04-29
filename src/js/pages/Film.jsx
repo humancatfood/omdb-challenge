@@ -1,11 +1,10 @@
 import { get } from 'axios';
-import classNames from 'classNames';
 import map from 'lodash/map';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
-import Header from '../components/Header';
+import FourOhFourContent from './../components/404';
 
 import { fetchFilm, receiveFilm } from './../data/actions';
 import { getFilm } from './../data/omdb-service';
@@ -15,7 +14,7 @@ import { getFilm } from './../data/omdb-service';
 @reduxConnect(
   store => ({
     selectedFilm: store.films.selectedFilm,
-    fetchingFilm: store.ui.sortProp
+    fetchingFilm: store.films.fetchingFilm
   }),
   {
     fetchFilm,
@@ -38,8 +37,21 @@ export default class Film extends React.Component
 
   render ()
   {
-    const {selectedFilm} = this.props;
-    return selectedFilm ? this._renderFilm(selectedFilm) : this._renderLoading();
+    const {selectedFilm, fetchingFilm} = this.props;
+
+    if (fetchingFilm)
+    {
+      return this._renderLoading();
+    }
+    else if (selectedFilm)
+    {
+      return this._renderFilm(selectedFilm);
+    }
+    else
+    {
+      return this._render404();
+    }
+
   }
 
   _renderFilm ({ Title, Year, Country, Poster, Plot, Type, Genre, Director, Actors, Language, Released, Awards, imdbID })
@@ -123,6 +135,18 @@ export default class Film extends React.Component
         <header className="page-header">
           <h2>Loading ..</h2>
         </header>
+      </div>
+    );
+  }
+
+  _render404 ()
+  {
+    return (
+      <div className="container">
+        <header className="page-header">
+          <h2>Loading .. Failed</h2>
+        </header>
+        <FourOhFourContent />
       </div>
     );
   }
