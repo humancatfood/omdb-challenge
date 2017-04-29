@@ -2,10 +2,10 @@ import React from 'react';
 
 
 
-export default () => (
+export default ({ title }) => (
 
   <header className="page-header">
-    <h1>Film Search</h1>
+    <h1>{ title }</h1>
   </header>
 
 );

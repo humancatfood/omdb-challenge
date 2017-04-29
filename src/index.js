@@ -1,10 +1,13 @@
-import './css/index.css';
+import './css/index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import App from './js/app';
+import Main from './js/pages/Main';
+import Film from './js/pages/Film';
+import FourOhFour from './js/pages/FourOhFour';
 
 import { configureStore } from './js/data/store';
 
@@ -18,7 +21,13 @@ if (ENV.DEBUG)
 
 ReactDOM.render(
   <Provider store={ configureStore() }>
-    <App />
+    <Router>
+      <Switch>
+        <Route exact path="/" render={ () => <Main /> } />
+        <Route path="/film/:id" render={ ({ match }) => <Film filmId={ match.params.id } /> } />
+        <Route render={ ({ location }) => <FourOhFour path={ location.pathname } /> } />
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

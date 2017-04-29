@@ -3,6 +3,7 @@ import classNames from 'classNames';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { selectFilm, setSortProp } from './../data/actions';
 
@@ -19,6 +20,7 @@ import { selectFilm, setSortProp } from './../data/actions';
     setSortProp
   }
 )
+@withRouter
 export default class FilmList extends React.Component
 {
 
@@ -84,14 +86,15 @@ export default class FilmList extends React.Component
 
   _renderTableBody ()
   {
-    const { films, sortProp, selectFilm } = this.props;
+    const { films, sortProp, selectFilm, history } = this.props;
     const filmsToDisplay =  this._sortFilms(films, sortProp);
 
     return (
       <tbody>
         {
           filmsToDisplay.map(film => (
-            <tr onClick={ () => selectFilm(this._isSelected(film) ? null : film) }
+            <tr key={ film.imdbID }
+                onClick={ () => history.push(`/film/${ film.imdbID }`) }
                 className={ classNames('row', { info: this._isSelected(film )}) } >
               <td className="col-xs-1">
                 <img className="img img-thumbnail" src={ film.Poster } alt={ film.Title } />
