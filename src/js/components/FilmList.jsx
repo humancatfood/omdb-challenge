@@ -61,7 +61,8 @@ export default class FilmList extends React.Component
     return (
       <thead>
         <tr className="row">
-          <td className="col-xs-10">
+          <td className="col-xs-1" />
+          <td className="col-xs-9">
             <button className="btn btn-link" onClick={() => setSortProp('Title')}>
               Title <span className={ classNames('glyphicon', {
                 'glyphicon-sort-by-alphabet': sortProp === 'Title'
@@ -92,7 +93,10 @@ export default class FilmList extends React.Component
           filmsToDisplay.map(film => (
             <tr onClick={ () => selectFilm(this._isSelected(film) ? null : film) }
                 className={ classNames('row', { info: this._isSelected(film )}) } >
-              <td className="col-xs-10">
+              <td className="col-xs-1">
+                <img className="img img-thumbnail" src={ film.Poster } alt={ film.Title } />
+              </td>
+              <td className="col-xs-9">
                 { film.Title }
               </td>
               <td className="col-xs-2 text-right">
