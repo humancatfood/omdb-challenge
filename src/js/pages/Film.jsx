@@ -65,20 +65,25 @@ export default class Film extends React.Component
             <small>({ Country ? `${ Country }, ` : '' }{ Year })</small></h1>
         </header>
         <div className="row">
-          <section className="col-sm-6">
+          <section className="text-center
+                              col-xs-6
+                              col-md-4">
             <img className="img img-thumbnail"
                  src={ Poster } alt={ Title } />
           </section>
-          <section className="col-sm-6">
+          <section className="col-xs-6
+                              col-md-8">
 
             <dl>
               {
                 map(details, (v, k) => (
                   <div className="row">
-                    <dt className="col-sm-4">
+                    <dt className="col-sm-3
+                                   col-lg-2">
                       {k}:
                     </dt>
-                    <dd className="col-sm-8">
+                    <dd className="col-sm-9
+                                   col-lg-10">
                       {v}
                     </dd>
                   </div>
@@ -86,18 +91,20 @@ export default class Film extends React.Component
               }
               <hr/>
               <div className="row">
-                <dt className="col-xs-12">Plot:</dt>
+                <dt className="col-sm-12">Plot:</dt>
               </div>
               <div className="row">
-                <dd className="col-xs-12">{ Plot }</dd>
+                <dd className="col-sm-11 col-sm-offset-1">{ Plot }</dd>
               </div>
             </dl>
             <hr/>
             <div className="row">
-              <dt className="col-sm-4">
+              <dt className="col-sm-3
+                             col-lg-2">
                 IMDB:
               </dt>
-              <dd className="col-sm-8">
+              <dd className="col-sm-9
+                             col-lg-10">
                 <a href={imdbLink} target="_blank">{ imdbLink }</a>
               </dd>
             </div>
