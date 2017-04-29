@@ -82,7 +82,7 @@ export default class FilmList extends React.Component
             <button className="btn btn-link" onClick={() => this._setSortProp('Year')}>
               Year  <span className={ classNames('glyphicon', {
                 'glyphicon-sort-by-order': sortProp === 'Year',
-                'glyphicon-sort-by-order-alt': sortProp === 'Year' && reverse
+                'glyphicon-sort-by-order-alt': sortProp === 'Year' && !reverse
               }) } />
             </button>
           </td>
