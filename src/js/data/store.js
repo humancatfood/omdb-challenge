@@ -7,7 +7,10 @@ import reducers from './reducers';
 
 export const configureStore = () => {
 
-  const store = createStore(reducers, applyMiddleware(createLogger()));
+  const middleWare = [
+    ENV.DEBUG && createLogger()
+  ].filter(Boolean);
+  const store = createStore(reducers, applyMiddleware(...middleWare));
 
   // here: add more initialisation stuff for the store here
 
