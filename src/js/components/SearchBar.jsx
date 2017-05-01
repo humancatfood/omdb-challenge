@@ -1,3 +1,4 @@
+import debounce from 'lodash/debounce';
 import React from 'react';
 import { connect as reduxConnect } from 'react-redux';
 
@@ -29,7 +30,7 @@ export default class SeachBar extends React.Component
                         col-sm-8 col-sm-offset-2">
           <label className="input-group">
             <input id="search-input" className="form-control" type="text" placeholder="Search..."
-                   onChange={ e => this._search(e.currentTarget.value) }
+                   onChange={ this._onSearch.bind(this) }
                    ref="input" />
             <span className="input-group-btn">
               <button className="btn btn-default" type="button"><span className="glyphicon glyphicon-search" /></button>
@@ -46,13 +47,22 @@ export default class SeachBar extends React.Component
     this.refs.input.focus();
   }
 
-  _search (searchterm)
+  _onSearch (e)
   {
-    const { searchFilms, receiveFilms } = this.props;
+    e.preventDefault();
 
-    searchFilms(searchterm);
-    getFilmList(searchterm)
-      .then(receiveFilms)
+    // With more time I'd factor this whole debounced circus into a much cleverer omdb-service
+    const debounced = this.debouncedSearch || (this.debouncedSearch = debounce(this._search.bind(this), 500));
+
+    const searchTerm = this.refs.input.value;
+    this.props.searchFilms(searchTerm);
+    debounced(searchTerm);
+  }
+
+  _search (searchTerm)
+  {
+    getFilmList(searchTerm)
+      .then(this.props.receiveFilms)
       .catch(window.alert);
   }
 
