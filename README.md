@@ -14,6 +14,10 @@
 
 then open a browser and go to http://localhost:3000/
 
+OR
+
+open a browser and go to: https://humancatfood.github.io/omdb-challenge
+
 ---
 
 ### Development decisions:
