@@ -71,6 +71,9 @@ export default class Film extends React.Component
     return (
       <div className="container">
         <header className="page-header">
+          {
+            this._renderBackLink()
+          }
           <h1>
             <span>{ Title }</span>
             <br/>
@@ -133,6 +136,9 @@ export default class Film extends React.Component
     return (
       <div className="container">
         <header className="page-header">
+          {
+            this._renderBackLink()
+          }
           <h2>Loading ..</h2>
         </header>
       </div>
@@ -144,9 +150,24 @@ export default class Film extends React.Component
     return (
       <div className="container">
         <header className="page-header">
+          {
+            this._renderBackLink()
+          }
           <h2>Loading .. Failed</h2>
         </header>
         <FourOhFourContent />
+      </div>
+    );
+  }
+
+  _renderBackLink ()
+  {
+    return (
+      <div>
+        <button className="btn btn-link" onClick={() => this.props.history.push('/')}>
+          <span className="glyphicon glyphicon-hand-left" style={{'margin-right': '15px'}}/>
+          Back to Search
+        </button>
       </div>
     );
   }
