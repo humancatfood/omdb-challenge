@@ -89,7 +89,7 @@ export default class Film extends React.Component
             <dl>
               {
                 map(details, (v, k) => (
-                  <div className="row">
+                  <div key={ k } className="row">
                     <dt className="col-sm-3
                                    col-lg-2">
                       {k}:
