@@ -22,15 +22,16 @@ export default class SeachBar extends React.Component
 
   render ()
   {
+    const onSearch = this._onSearch.bind(this);
     return (
-      <form className="form row">
+      <form className="form row" onSubmit={ onSearch }>
 
         <div className="form-group
                         col-xs-12
                         col-sm-8 col-sm-offset-2">
           <label className="input-group">
             <input id="search-input" className="form-control" type="text" placeholder="Search..."
-                   onChange={ this._onSearch.bind(this) }
+                   onChange={ onSearch }
                    ref="input" />
             <span className="input-group-btn">
               <button className="btn btn-default" type="button"><span className="glyphicon glyphicon-search" /></button>
