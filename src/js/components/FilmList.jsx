@@ -103,7 +103,7 @@ export default class FilmList extends React.Component
           filmsToDisplay.map(film => (
             <tr key={ film.imdbID }
                 onClick={ () => this._selectFilm(film) }
-                className={ classNames('row', { info: this._isSelected(film )}) } >
+                className={ classNames('film-list-entry row', { info: this._isSelected(film )}) } >
               <td className="col-xs-1">
                 <img className="img img-thumbnail" src={ film.Poster } alt={ film.Title } />
               </td>
