@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FourOhFourContent from './../components/404';
+import Header from './../components/Header';
 
 
 
