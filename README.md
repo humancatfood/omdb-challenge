@@ -12,11 +12,13 @@
  > npm run
 ```
 
-then open a browser and go to http://localhost:3000/
+~then open a browser and go to http://localhost:3000/~
 
-OR
+~OR~
 
-open a browser and go to: https://humancatfood.github.io/omdb-challenge
+~open a browser and go to: https://humancatfood.github.io/omdb-challenge~
+
+[UPDATE:] [omdb](http://www.omdbapi.com/) have made their api private so this won't work anymore. I'll leave the code up for reference, but the only way to see any results is now to clone the repo, become an [omdb patron](https://www.patreon.com/bePatron?u=5038490) and add your own api-key to [these requests](https://github.com/humancatfood/omdb-challenge/blob/master/src/js/data/omdb-service.js).
 
 ---
 
